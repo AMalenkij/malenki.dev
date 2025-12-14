@@ -8,7 +8,8 @@ import {
   setRequestLocale,
 } from "next-intl/server";
 import { ThemeProvider } from "next-themes";
-import Header from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { Header } from "@/components/layout/Header";
 import { isValidLocale, routing } from "@/i18n/routing";
 
 export function generateStaticParams() {
@@ -57,6 +58,7 @@ export default async function LocaleLayout({
           >
             <Header />
             {children}
+            <Footer />
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>
