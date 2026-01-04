@@ -1,6 +1,5 @@
 import { defineQuery } from "next-sanity";
 
-const IMAGE_PROJECTION = `
   "id": _id,
   "url": coalesce(imageFile.asset->url, svgFile.asset->url),
   "lqip": imageFile.asset->metadata.lqip,
@@ -16,8 +15,19 @@ export const GET_PROJECTS_QUERY = defineQuery(`
     year,
     "logo": coalesce(logo->svgFile.asset->url),
     "tags": tags[]->name,
-    "images": gallery[]->{
-      ${IMAGE_PROJECTION}
-    }
+    "images": gallery[]->{${IMAGE}}
+  }
+`);
+
+export const GET_PROJECT_QUERY = defineQuery(`
+  *[_type == "showcase" && slug.current == $slug][0] {
+    _id,
+    title,
+    description,
+    "slug": slug.current,
+    year,
+    "logo": coalesce(logo->svgFile.asset->url),
+    "tags": tags[]->name,
+    "images": gallery[]->{${IMAGE}}
   }
 `);
