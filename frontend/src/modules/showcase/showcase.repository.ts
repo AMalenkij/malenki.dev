@@ -1,5 +1,6 @@
 import { defineQuery } from "next-sanity";
 
+const IMAGE = `
   "id": _id,
   "url": coalesce(imageFile.asset->url, svgFile.asset->url),
   "lqip": imageFile.asset->metadata.lqip,
