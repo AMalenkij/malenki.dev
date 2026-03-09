@@ -1,6 +1,6 @@
-import { AppImage, imageAdapter } from "@/modules/common/image.adapter";
-import type { GET_PROJECT_QUERY_RESULT } from "@/sanity.types";
 import type { PortableTextBlock } from "@portabletext/types";
+import { type AppMedia, mediaAdapter, type RawMedia } from "@/modules/common/media.adapter";
+import type { GET_PROJECT_QUERY_RESULT } from "@/sanity.types";
 
 export type AppProject = {
   id: string;
@@ -10,13 +10,12 @@ export type AppProject = {
   logo: string;
   description: PortableTextBlock[];
   tags: string[];
-  images: AppImage[];
+  media: AppMedia[];
 };
 
 export function showcaseDetailAdapter(
-  rawProject: GET_PROJECT_QUERY_RESULT
+  rawProject: GET_PROJECT_QUERY_RESULT,
 ): AppProject | null {
-
   if (
     !rawProject ||
     !rawProject._id ||
@@ -26,12 +25,12 @@ export function showcaseDetailAdapter(
     !rawProject.logo ||
     !rawProject.description ||
     !rawProject.tags ||
-    !rawProject.images
+    !rawProject.media
   ) {
     return null;
   }
 
-  const processedImages = imageAdapter(rawProject.images);
+  const processedMedia = mediaAdapter(rawProject.media as RawMedia[]);
 
   return {
     id: rawProject._id,
@@ -40,7 +39,7 @@ export function showcaseDetailAdapter(
     year: rawProject.year,
     logo: rawProject.logo,
     description: rawProject.description as PortableTextBlock[],
-    tags: rawProject.tags,
-    images: processedImages,
+    tags: (rawProject.tags || []).filter((tag): tag is string => Boolean(tag)),
+    media: processedMedia,
   };
 }

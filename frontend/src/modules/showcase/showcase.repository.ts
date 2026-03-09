@@ -1,11 +1,12 @@
 import { defineQuery } from "next-sanity";
 
-const IMAGE = `
+const MEDIA = `
   "id": _id,
-  "url": coalesce(imageFile.asset->url, svgFile.asset->url),
+  "mediaType": mediaType,
+  "url": coalesce(imageFile.asset->url, svgFile.asset->url, videoFile.asset->url),
   "lqip": imageFile.asset->metadata.lqip,
-  "dimensions": imageFile.asset->metadata.dimensions,
-  "alt": coalesce(alt, title, "Project Image")
+  "dimensions": coalesce(imageFile.asset->metadata.dimensions, videoFile.asset->metadata.dimensions),
+  "alt": coalesce(alt, title, "Project Media")
 `;
 
 export const GET_PROJECTS_QUERY = defineQuery(`
@@ -16,7 +17,7 @@ export const GET_PROJECTS_QUERY = defineQuery(`
     year,
     "logo": coalesce(logo->svgFile.asset->url),
     "tags": tags[]->name,
-    "images": gallery[]->{${IMAGE}}
+    "media": gallery[]->{${MEDIA}}
   }
 `);
 
@@ -29,6 +30,6 @@ export const GET_PROJECT_QUERY = defineQuery(`
     year,
     "logo": coalesce(logo->svgFile.asset->url),
     "tags": tags[]->name,
-    "images": gallery[]->{${IMAGE}}
+    "media": gallery[]->{${MEDIA}}
   }
 `);
