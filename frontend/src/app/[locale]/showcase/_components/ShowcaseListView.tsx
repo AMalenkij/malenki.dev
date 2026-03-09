@@ -11,6 +11,7 @@ import {
 import { Link } from "@/i18n/routing";
 import type { AppProject } from "@/modules/showcase/showcase.adapter";
 import { ShowcaseGalleryMedia } from "./ShowcaseGalleryMedia";
+import { Badge } from "@/components/ui/badge";
 
 type ShowcaseListViewProps = {
   projects: AppProject[];
@@ -42,11 +43,14 @@ export function ShowcaseListView({ projects }: ShowcaseListViewProps) {
 
               {/* Tags */}
               <div className="col-span-12 flex flex-wrap gap-2 md:col-span-4 md:col-start-5">
-                {project.tags?.map((tag, tagIndex) => (
-                  <span key={tag} className="text-sm text-muted-foreground">
+                {project.tags?.map((tag) => (
+                  <Badge
+                    key={tag}
+                    variant="secondary"
+                    className="text-xs font-normal"
+                  >
                     {tag}
-                    {tagIndex < (project.tags?.length || 0) - 1 && ","}
-                  </span>
+                  </Badge>
                 ))}
               </div>
 

@@ -3,6 +3,7 @@
 import { Link } from "@/i18n/routing";
 import type { AppProject } from "@/modules/showcase/showcase.adapter";
 import { ShowcaseGalleryMedia } from "./ShowcaseGalleryMedia";
+import { Badge } from "@/components/ui/badge";
 
 type ShowcaseGridViewProps = {
   projects: AppProject[];
@@ -42,17 +43,21 @@ export function ShowcaseGridView({ projects }: ShowcaseGridViewProps) {
             {project.tags && project.tags.length > 0 && (
               <div className="flex flex-wrap gap-1.5">
                 {project.tags.slice(0, 3).map((tag) => (
-                  <span
+                  <Badge
                     key={tag}
-                    className="text-[11px] uppercase tracking-wider font-medium text-muted-foreground border border-border/40 rounded-full px-2 py-0.5"
+                    variant="outline"
+                    className="text-[11px] uppercase tracking-wider font-medium text-muted-foreground border-border/40 px-2 py-0.5 rounded-full"
                   >
                     {tag}
-                  </span>
+                  </Badge>
                 ))}
                 {project.tags.length > 3 && (
-                  <span className="text-[11px] uppercase tracking-wider font-medium text-muted-foreground border border-border/40 rounded-full px-2 py-0.5">
+                  <Badge
+                    variant="outline"
+                    className="text-[11px] uppercase tracking-wider font-medium text-muted-foreground border-border/40 px-2 py-0.5 rounded-full"
+                  >
                     +{project.tags.length - 3}
-                  </span>
+                  </Badge>
                 )}
               </div>
             )}
